@@ -1,0 +1,133 @@
+.dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 50;
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+.dialog .dialog-content {
+  width: 900px;
+  margin: 10px auto;
+  background: #fff;
+  position: relative;
+  border-radius: 4px;
+  height: calc(100% - 20px);
+}
+
+.dialog .dialog-content .form-detail {
+  z-index: 60;
+}
+.dialog .dialog-content .form-detail .form-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px 5px;
+  position: relative;
+}
+.dialog .dialog-content .form-detail .form-header .form-close {
+  display: flex;
+  align-items: center;
+  padding: 12px 12px 30px;
+  gap: 10px;
+}
+.dialog .dialog-content .form-detail .form-header .form-title {
+  width: 100%;
+  padding: 20px 32px 20px 32px;
+  padding-right: 12px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px 5px 0 0;
+  display: flex;
+  align-items: center;
+}
+.dialog .dialog-content .form-detail .form-header .form-title .title {
+  font-size: 24px;
+  color: #111;
+  font-family: MisaNotoSans-Bold !important;
+}
+.dialog .dialog-content .form-detail .form-header .form-title .customer,
+.dialog .dialog-content .form-detail .form-header .form-title .supplier {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+.dialog .dialog-content .form-detail .form-header .form-title .customer .label,
+.dialog .dialog-content .form-detail .form-header .form-title .supplier .label {
+  padding-left: 10px;
+}
+.dialog .dialog-content .form-detail .form-body {
+  transition: all 0.23s ease 0.1s;
+  flex-direction: column;
+  display: flex;
+  padding: 0 32px 0 32px;
+  overflow: auto;
+  height: calc(100% - 96px);
+}
+
+.dialog .dialog-content .form-detail .form-body .form-content .row-input {
+  display: flex;
+  padding-bottom: 12px;
+}
+.dialog .dialog-content .form-detail .form-body .form-content .txtemployeeCode {
+  width: 150px;
+  margin-right: 6px;
+}
+.dialog .dialog-content .form-detail .form-body .form-content .cbo-department {
+  padding-bottom: 4px;
+}
+.dialog .dialog-content .form-detail .form-body .form-content .infor-left {
+  padding-right: 26px;
+}
+.dialog .dialog-content .form-detail .form-body .form-content .dtp-birthOfDate {
+  padding-right: 6px;
+  width: 160px;
+}
+
+.dialog .dialog-content .form-detail .form-body .form-content .rbtn-gender {
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+}
+.dialog .dialog-content .form-detail .form-body .form-content .txtCMND {
+  padding-right: 6px;
+  width: 245px;
+}
+.dialog .dialog-content .form-detail .form-body .form-content .dtpIdentityDate {
+  width: 165px;
+}
+
+.dialog .dialog-content .form-detail .form-body .form-content .txtAddress {
+  margin-bottom: 12px;
+}
+.dialog .dialog-content .form-detail .form-body .form-content .contact {
+  margin-top: 20px;
+}
+.dialog .dialog-content .form-detail .form-body .form-content .contact-input {
+  width: 200px;
+  margin-right: 6px;
+}
+.dialog .dialog-content .form-detail .form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0 20px;
+  margin: 32px 32px 0;
+  border-top: 1px solid #babec5;
+}
+.dialog .dialog-content .form-detail .form-footer .button-right {
+  display: flex;
+  align-items: center;
+}
+
+.option-item-name {
+  display: flex;
+  align-items: center;
+}
+@media only screen and (max-height: 768px) {
+  .form-body {
+    height: calc(100% - 73px);
+  }
+}

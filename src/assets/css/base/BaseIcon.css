@@ -1,0 +1,113 @@
+.icon {
+  width: 24px;
+  height: 24px;
+  background: url(../../img/Sprites.64af8f61.svg) no-repeat;
+  cursor: pointer;
+}
+.icon-dashboard {
+  background-position: -30px -1628px;
+}
+.icon-dashboard-active {
+  background-position: -30px -1585px;
+}
+
+.icon-cash {
+  background-position: -73px -1628px;
+}
+
+.icon-deposits {
+  background-position: -117px -1629px;
+}
+
+.icon-purchase {
+  background-position: -161px -1629px;
+}
+
+.icon-sell {
+  background-position: -204px -1629px;
+}
+
+.icon-receipt {
+  background-position: -249px -1629px;
+}
+
+.icon-warehouse {
+  background-position: -291px -1629px;
+}
+
+.icon-tools {
+  background-position: -336px -1629px;
+}
+
+.icon-fixed-assets {
+  background-position: -379px -1629px;
+}
+
+.icon-tax {
+  background-position: -423px -1630px;
+}
+
+.icon-price {
+  background-position: -467px -1630px;
+}
+
+.icon-general {
+  background-position: -511px -1629px;
+}
+
+.icon-budget {
+  background-position: -378px -1660px;
+}
+
+.icon-report {
+  background-position: -547px -1631px;
+}
+
+.icon-finance {
+  background-position: -204px -1662px;
+}
+
+.icon-toggle-i {
+  background-position: -843px -30px;
+}
+
+.icon-arrow-bottom {
+  background-position: -30px -357px;
+  transform: rotate(-90deg);
+}
+.icon-arrow-bottom-small {
+  background-position: -467px -414px;
+  width: 10px;
+  height: 5px;
+}
+
+.icon-bell {
+  background-position: -788px -30px;
+}
+.icon-user {
+  background-position: -352px -894px;
+  width: 32px;
+  height: 32px;
+}
+.icon-refresh {
+  background-position: -417px -200px;
+}
+.icon-refresh:hover {
+  background-position: -1090px -87px;
+}
+
+.icon-export-excel {
+  background-position: -699px -199px;
+}
+.icon-export-excel:hover {
+  background-position: -699px -255px;
+}
+.icon-search {
+  background-position: -982px -356px;
+}
+.icon-help {
+  background-position: -89px -144px;
+}
+.icon-close {
+  background-position: -144px -144px;
+}

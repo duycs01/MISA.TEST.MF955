@@ -1,0 +1,66 @@
+@import url(../css/base/BaseIcon.css);
+@import url(../css/base/Button.css);
+@import url(../css/base/BaseInput.css);
+@import url(../css/base/Table.css);
+@import url(../css/base/Checkbox.css);
+@import url(../css/common/Common.css);
+@import url(../css/base/InputRadio.css);
+@import url(../css/base/BaseTabs.css);
+
+body {
+  font-family: MisaNotoSans-Regular !important;
+  font-size: 13px !important;
+  margin: 0 !important;
+  color: #111111 !important;
+}
+a {
+  text-decoration: none !important;
+  color: #111111 !important;
+}
+input {
+  font-family: MisaNotoSans !important;
+}
+*,
+*::before,
+*::after {
+  box-sizing: content-box;
+}
+@font-face {
+  font-family: MisaNotoSans-Italic;
+  src: url(../fonts/notosans-italic.1c1aaac9.woff2);
+}
+@font-face {
+  font-family: MisaNotoSans-Bold;
+  src: url(../fonts/notosans-bold.3ede5aff.woff2);
+}
+@font-face {
+  font-family: MisaNotoSans-Regular;
+  src: url(../fonts/notosans-regular.2cb88a13.woff2);
+}
+@font-face {
+  font-family: MisaNotoSans-Semibold;
+  src: url(../fonts/notosans-semibold.df3e6dc4.woff2);
+}
+/* width / height */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #d3d3d7;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+::-webkit-scrollbar-track-piece {
+  width: 10px;
+}

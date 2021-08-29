@@ -1,0 +1,48 @@
+.input-feild {
+  border: 1px solid #babec5;
+  font-size: 13px;
+  height: 32px;
+  color: inherit;
+  position: relative;
+  padding: 6px 20px 6px;
+  border-radius: 2px;
+  border: 1px solid #babec5;
+  box-sizing: border-box;
+  width: 100%;
+  outline: none;
+}
+.input-feild:hover {
+  outline: 1px solid #e2e2e2;
+}
+.input-feild:focus {
+  border: 1px solid #2ca01c;
+  outline: none;
+}
+.input-feild::placeholder {
+  font-family: MisaNotoSans-Italic !important;
+  font-size: 12px;
+}
+
+.input-feild-group-text {
+  padding: 6px 32px 6px 10px;
+}
+.input-feild-group {
+  position: relative;
+}
+.input-feild-group-icon {
+  position: absolute;
+  top: 3px;
+  right: 0;
+}
+.required {
+  color: red;
+}
+.input-lable {
+  font-family: MisaNotoSans-Bold !important;
+  padding-bottom: 4px;
+}
+
+input[type="radio"]:checked {
+  color: #2ca01c;
+  background: #2ca01c;
+}
