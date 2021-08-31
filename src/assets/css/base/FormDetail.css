@@ -76,7 +76,7 @@
   margin-right: 6px;
 }
 .dialog .dialog-content .form-detail .form-body .form-content .cbo-department {
-  padding-bottom: 4px;
+  padding-bottom: 14px;
 }
 .dialog .dialog-content .form-detail .form-body .form-content .infor-left {
   padding-right: 26px;
@@ -122,9 +122,18 @@
   align-items: center;
 }
 
-.option-item-name {
+.option-item-name,
+.option-item-header {
   display: flex;
   align-items: center;
+}
+
+.option-item-header {
+  color: #111;
+  font-weight: bold;
+  background: #f4f5f8;
+  height: 32px;
+  font-size: 12px;
 }
 @media only screen and (max-height: 768px) {
   .form-body {

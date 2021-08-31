@@ -46,4 +46,6 @@ export default class BaseAPI {
     deleteListId(body) {
         return baseAPIConfig.post(`${this.controller}/deleteList`, body)
     }
+
+  
 }

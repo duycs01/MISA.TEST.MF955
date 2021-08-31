@@ -14,9 +14,21 @@
 .px-10 {
   padding: 0 10px;
 }
+.mx-8 {
+  margin: 0 8px;
+}
+.px-8 {
+  padding: 0 8px;
+}
 .pl-20 {
   padding-left: 20px;
 }
 .pr-20 {
   padding-right: 20px;
+}
+.font-bold {
+  font-family: MisaNotoSans-Bold !important;
+}
+.uppercase {
+  text-transform: uppercase;
 }
