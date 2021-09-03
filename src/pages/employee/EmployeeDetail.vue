@@ -21,8 +21,8 @@
             </div>
           </div>
           <div class="form-close">
-            <div class="icon icon-help"></div>
-            <div @click="btnExitForm" class="icon icon-close"></div>
+            <div class="icon icon-help" title="Giúp (F1)"></div>
+            <div @click="btnExitForm" class="icon icon-close" title="Xóa (Esc)"></div>
           </div>
         </div>
         <div class="form-body">
@@ -36,11 +36,16 @@
                       <span class="required">*</span>
                     </label>
                     <input
+                      @change="validateRequired($refs['EmployeeCode'],employeeDetail.EmployeeCode)"
+                      ref="EmployeeCode"
+                      maxlength="20"
                       v-model="employeeDetail.EmployeeCode"
                       id="txtemployeeCode"
                       type="text"
                       class="input-feild"
                       tabindex="1"
+                      title="Mã nhân viên"
+                      textVN="Mã nhân viên"
                     />
                   </div>
                   <div class="txtfullName">
@@ -49,11 +54,16 @@
                       <span class="required">*</span>
                     </label>
                     <input
+                      @blur="validateRequired($refs['FullName'],employeeDetail.FullName)"
+                      maxlength="100"
                       v-model="employeeDetail.FullName"
                       id="txtfullName"
                       type="text"
                       class="col input-feild"
                       tabindex="2"
+                      ref="FullName"
+                      title="Họ tên"
+                      textVN="Họ tên"
                     />
                   </div>
                 </div>
@@ -62,38 +72,42 @@
                     Đơn vị
                     <span class="required">*</span>
                   </label>
-                  <multiselect
-                    class="custom-select-form"
-                    @input="getDepartmentId"
-                    @keyup.native=" onkeyup($event, departmentDetail)"
-                    :tabindex="3"
-                    v-model="departmentDetail"
-                    :options="departmentList"
-                    :searchable="true"
-                    :close-on-select="true"
-                    :show-labels="false"
-                    :multiple="false"
-                    :allowEmpty="false"
-                    :custom-label="searchLabel"
-                    placeholder
-                  >
-                    <span slot="noResult">Không tìm thấy đơn vị</span>
-                    <template slot="singleLabel" slot-scope="props">
-                      <span>{{ props.option.DepartmentName }}</span>
-                    </template>
-                    <template slot="beforeList">
-                      <div class="option-item-header">
-                        <span class="px-10">Mã đơn vị</span>
-                        <span class="px-10">Tên đơn vị</span>
-                      </div>
-                    </template>
-                    <template slot="option" slot-scope="props">
-                      <div class="option-item-name">
-                        <span class="pr-20">{{ props.option.DepartmentCode }}</span>
-                        <span class="pl-20 uppercase">{{ props.option.DepartmentName }}</span>
-                      </div>
-                    </template>
-                  </multiselect>
+                  <div ref="Department" textVN="Đơn vị" title="Đơn vị">
+                    <multiselect
+                      class="custom-select-form"
+                      @open="focusDropdown($refs['Department'])"
+                      @close="validateRequired($refs['Department'],departmentDetail)"
+                      @input="getDepartmentId(departmentDetail.DepartmentId)"
+                      @keyup.native=" onkeyup($event, departmentDetail)"
+                      :tabindex="3"
+                      v-model="departmentDetail"
+                      :options="departmentList"
+                      :searchable="true"
+                      :close-on-select="true"
+                      :show-labels="false"
+                      :multiple="false"
+                      :allowEmpty="false"
+                      :custom-label="searchLabel"
+                      placeholder
+                    >
+                      <span slot="noResult">Không tìm thấy đơn vị</span>
+                      <template slot="singleLabel" slot-scope="props">
+                        <span>{{ props.option.DepartmentName }}</span>
+                      </template>
+                      <template slot="beforeList">
+                        <div class="option-item-header">
+                          <span class="px-10">Mã đơn vị</span>
+                          <span class="px-10">Tên đơn vị</span>
+                        </div>
+                      </template>
+                      <template slot="option" slot-scope="props">
+                        <div class="option-item-name">
+                          <span class="pr-20">{{ props.option.DepartmentCode }}</span>
+                          <span class="pl-20 uppercase">{{ props.option.DepartmentName }}</span>
+                        </div>
+                      </template>
+                    </multiselect>
+                  </div>
                 </div>
                 <div class="txtPosition">
                   <label class="input-lable" for="txtPosition">Chức danh</label>
@@ -103,20 +117,28 @@
                     type="text"
                     class="input-feild"
                     tabindex="4"
+                    textVN="Chức danh"
                   />
                 </div>
               </div>
               <div class="infor-right">
                 <div class="row-input">
                   <div class="dtp-birthOfDate">
-                    <label class="input-lable" for="txtPosition">Ngày sinh</label>
-                    <input
-                      @change="getDateValue($event)"
-                      :value="formatDate(employeeDetail.DateOfBirth)"
+                    <label class="input-lable" for="dtp-birthOfDate">Ngày sinh</label>
+
+                    <DxDateBox
                       id="dtp-birthOfDate"
-                      type="date"
-                      class="input-feild"
-                      tabindex="5"
+                      :value="formatDate(employeeDetail.DateOfBirth)"
+                      :onValueChanged="getDateValue"
+                      displayFormat="dd/MM/yyyy"
+                      placeholder="DD/MM/YYYY"
+                      :useMaskBehavior="true"
+                      :showClearButton="false"
+                      class="dxDateBox dtp-birthOfDate"
+                      dateOutOfRangeMessage="Ngày chọn không được quá ngày hiện tại"
+                      :max="new Date()"
+                      :tabIndex="5"
+                      title="Ngày sinh"
                     />
                   </div>
                   <div class="rbtn-gender">
@@ -128,9 +150,10 @@
                           value="0"
                           type="radio"
                           id="gender-male"
-                          name="radio-group"
+                          textVN="radio-group"
                           checked
                           tabindex="6"
+                          title="Nam"
                         />
                         <label for="gender-male">Nam</label>
                       </div>
@@ -140,7 +163,7 @@
                           value="1"
                           type="radio"
                           id="gender-female"
-                          name="radio-group"
+                          textVN="radio-group"
                           tabindex="7"
                         />
                         <label for="gender-female">Nữ</label>
@@ -151,8 +174,9 @@
                           value="2"
                           type="radio"
                           id="gender-order"
-                          name="radio-group"
+                          textVN="radio-group"
                           tabindex="8"
+                          title="Khác"
                         />
                         <label for="gender-order">Khác</label>
                       </div>
@@ -168,17 +192,25 @@
                       type="text"
                       class="input-feild"
                       tabindex="9"
+                      title="Số CMND"
                     />
                   </div>
                   <div class="dtpIdentityDate">
                     <label class="input-lable" for="dtpIdentityDate">Ngày cấp</label>
-                    <input
-                      @change="getDateValue($event)"
-                      :value="formatDate(employeeDetail.IdentityDate)"
+
+                    <DxDateBox
                       id="dtpIdentityDate"
-                      type="date"
-                      class="col input-feild"
-                      tabindex="10"
+                      :value="formatDate(employeeDetail.IdentityDate)"
+                      :onValueChanged="getDateValue"
+                      displayFormat="dd/MM/yyyy"
+                      placeholder="DD/MM/YYYY"
+                      :useMaskBehavior="true"
+                      :showClearButton="false"
+                      class="dxDateBox dtpIdentityDate"
+                      dateOutOfRangeMessage="Ngày chọn không được quá ngày hiện tại"
+                      :max="new Date()"
+                      :tabIndex="5"
+                      title="Ngày cấp"
                     />
                   </div>
                 </div>
@@ -190,6 +222,7 @@
                     type="text"
                     class="input-feild"
                     tabindex="11"
+                    title="Nơi cấp"
                   />
                 </div>
               </div>
@@ -203,6 +236,7 @@
                   type="text"
                   class="input-feild"
                   tabindex="12"
+                  title="Địa chỉ"
                 />
               </div>
               <div class="row-input">
@@ -214,6 +248,7 @@
                     type="text"
                     class="input-feild"
                     tabindex="13"
+                    title="Số điện thoại di động"
                   />
                 </div>
                 <div class="txtTelePhoneNumber contact-input">
@@ -224,16 +259,20 @@
                     type="text"
                     class="input-feild"
                     tabindex="14"
+                    title="Số điện thoại cố định"
                   />
                 </div>
                 <div class="txtEmail contact-input">
                   <label class="input-lable" for="txtEmail">Email</label>
                   <input
+                    @change="validateEmail($event,employeeDetail.Email)"
                     v-model="employeeDetail.Email"
                     id="txtEmail"
                     type="text"
                     class="input-feild"
                     tabindex="15"
+                    title="Địa chỉ Email"
+                    textVN="Địa chỉ Email"
                   />
                 </div>
               </div>
@@ -246,6 +285,7 @@
                     type="text"
                     class="input-feild"
                     tabindex="16"
+                    title="Tài khoản ngân hàng"
                   />
                 </div>
                 <div class="txtBankName contact-input">
@@ -256,6 +296,7 @@
                     type="text"
                     class="input-feild"
                     tabindex="17"
+                    title="Tên ngân hàng"
                   />
                 </div>
                 <div class="txtBankBranch contact-input">
@@ -266,6 +307,7 @@
                     type="text"
                     class="input-feild"
                     tabindex="18"
+                    title="Chi nhánh ngân hàng"
                   />
                 </div>
               </div>
@@ -277,8 +319,16 @@
             <button @click="btnCloseForm" class="button button-white">Hủy</button>
           </div>
           <div class="button-right">
-            <button @click="btnSaveFormClick" class="button button-white mx-10">Cất</button>
-            <button @click="btnSaveAddClick" class="button">Cất và Thêm</button>
+            <button
+              @click="btnSaveFormClick"
+              class="button button-white mx-10"
+              title="Cất (Crtl + S)"
+            >Cất</button>
+            <button
+              @click="btnSaveAddClick"
+              class="button"
+              title="Cất và Thêm (Crtl + Shift + S)"
+            >Cất và Thêm</button>
           </div>
         </div>
       </form>
@@ -297,6 +347,9 @@
         <button @click="btnSaveFormClick" class="button">Có</button>
       </template>
     </base-popup>
+    <transition textVN="slide-fade">
+      <base-toast-mess v-if="showToastMess" :message="toastMess"></base-toast-mess>
+    </transition>
   </div>
 </template>
 <script>
@@ -306,9 +359,14 @@ import EmployeeAPI from "../../apis/components/EmployeesAPI";
 import BasePopup from "../../components/base/BasePopup.vue";
 import Validate from "../../util/Validate";
 import EmployeeModel from "../../models/Employee";
+import BaseToastMess from "../../components/base/BaseToastMess.vue";
+
+import DxDateBox from "devextreme-vue/date-box";
+import { locale } from "devextreme/localization";
+locale("vi-VN");
 
 export default {
-  components: { BasePopup },
+  components: { BasePopup, BaseToastMess, DxDateBox },
   props: {
     formData: {
       type: Object,
@@ -322,7 +380,7 @@ export default {
   data() {
     return {
       departmentList: DepartmentModel.departmentList,
-      departmentDetail: { ...DepartmentModel.departmentDetail },
+      departmentDetail: DepartmentModel.departmentDetail,
 
       employeeDetail: { ...this.formData },
       tabIndexForm: 1,
@@ -332,7 +390,15 @@ export default {
       popupDetail: {
         icon: "",
         description: ""
-      }
+      },
+      formModeSave: this.formMode,
+
+      showToastMess: false,
+      toastMess: { icon: "icon-success", mess: "Lấy dữ liệu thành công" },
+
+      inputError: [],
+
+      closeForm: false
     };
   },
   methods: {
@@ -341,20 +407,24 @@ export default {
      * CreatedBy: duylv 29/08/2021
      */
     onkeyup(event, departmentDetail) {
-      let index = this.departmentList.findIndex(
-        item => item.DepartmentCode == departmentDetail.DepartmentCode
-      );
-      console.log(event.key);
-      if (event.key == "ArrowUp" && index != -1 && index > 0) {
-        index--;
-      } else if (
-        event.key == "ArrowDown" &&
-        index != -1 &&
-        index < this.departmentList.length - 1
-      ) {
-        index++;
+      if (departmentDetail != null) {
+        let index = this.departmentList.findIndex(
+          item => item.DepartmentCode == departmentDetail.DepartmentCode
+        );
+        console.log(event.key);
+        if (event.key == "ArrowUp" && index != -1 && index > 0) {
+          index--;
+        } else if (
+          event.key == "ArrowDown" &&
+          index != -1 &&
+          index < this.departmentList.length - 1
+        ) {
+          index++;
+        }
+        this.departmentDetail = this.departmentList[index];
+      } else {
+        this.departmentDetail = this.departmentList[0];
       }
-      this.departmentDetail = this.departmentList[index];
     },
 
     /**
@@ -363,8 +433,13 @@ export default {
      */
     btnCloseForm() {
       this.$emit("btnCloseForm");
+      this.closePopupQuestion();
     },
 
+    /**
+     * Bắt sự kiện nút X đóng form
+     * CreatedBy: duylv 29/08/2021
+     */
     btnExitForm() {
       var checkObj = Validate.checkObjEqual(this.formData, this.employeeDetail);
 
@@ -399,13 +474,14 @@ export default {
      * Create by: nvduy(31/8/2021)
      */
     getDateValue(e) {
-      var attrId = e.target.id;
-      if (attrId == "dtp-DateOfBirth") {
-        this.employeeDetail.DateOfBirth = e.srcElement.value;
-      }
-      if (attrId == "dtp-IdentityDate") {
-        this.employeeDetail.IdentityDate = e.srcElement.value;
-      }
+      console.log(e);
+      // var attrId = e.target.id;
+      // if (attrId == "dtp-DateOfBirth") {
+      //   this.employeeDetail.DateOfBirth = e.srcElement.value;
+      // }
+      // if (attrId == "dtp-IdentityDate") {
+      //   this.employeeDetail.IdentityDate = e.srcElement.value;
+      // }
     },
 
     /**
@@ -424,8 +500,8 @@ export default {
      * Gắn departmentId vào formData
      * Create by: nvduy(31/8/2021)
      */
-    getDepartmentId() {
-      this.employeeDetail.DepartmentId = this.departmentDetail.DepartmentId;
+    getDepartmentId(id) {
+      this.employeeDetail.DepartmentId = id;
     },
 
     /**
@@ -465,14 +541,203 @@ export default {
     },
 
     /**
+     * Bắt sự kiện mở tôast
+     * CreatedBy: duylv 31/08/2021
+     */
+    showToast() {
+      this.showToastMess = true;
+    },
+
+    focusDropdown(ref) {
+      if (ref.classList[0] != "border-focus") {
+        ref.classList.add("border-focus");
+      }
+    },
+
+    /**
+     * validate các trường bắt buộc nhập
+     * CreatedBy: duylv 01/09/2021
+     */
+    validateRequired(ref, value) {
+      Validate.validateRequired(ref, value);
+    },
+
+    /**
+     * Thực hiện kiểm tra dịnh dạng Email
+     * CreatedBy: duylv 01/09/2021
+     */
+    validateEmail(event, value) {
+      Validate.validateInputEmail(event, value);
+    },
+
+    /**
+     * Thực hiện cất form
+     * Create by: nvduy(31/8/2021)
+     */
+    saveForm() {
+      // Kiểm tra tất cả input bắt buộc nhập
+      let checkRequired = this.validateAll();
+
+      // Kiểm tra form đã thay đổi chưa : true là chưa thay đổi/ false là đã thay đổi
+      var checkObj = Validate.checkObjEqual(this.formData, this.employeeDetail);
+
+      if (checkRequired) {
+        // Kiêm tra trùng mã nhân viên : true là trùng / false là không trùng
+        // formModeSave: 1 Sửa / 0 Thêm
+        if (this.formModeSave == 0) {
+          EmployeeAPI.checkDuplicate(this.employeeDetail).then(
+            duplicateCode => {
+              if (!duplicateCode.data) {
+                this.insertData();
+              } else {
+                // Hiển thị cảnh báo nếu mã nhân viên bị trùng
+                this.popupDetail = {
+                  mess: `Mã nhân viên <${this.employeeDetail.EmployeeCode}> đã tồn tại trong hệ thống, vui lòng kiểm tra lại.`,
+                  icon: "icon-error"
+                };
+                this.showPopupWarning = true;
+              }
+            }
+          );
+        }
+        // Kiểm tra form đã thay đổi chưa
+        if (!checkObj) {
+          // formModeSave: 1 Sửa / 0 Thêm
+          if (this.formModeSave == 1) {
+            EmployeeAPI.checkDuplicate(this.employeeDetail).then(
+              duplicateCode => {
+                if (!duplicateCode.data) {
+                  this.updateData();
+                } else {
+                  // Hiển thị cahr báo nếu mã nhân viên bị trùng
+                  this.popupDetail = {
+                    mess: `Mã nhân viên <${this.employeeDetail.EmployeeCode}> đã tồn tại trong hệ thống, vui lòng kiểm tra lại.`,
+                    icon: "icon-error"
+                  };
+                  this.showPopupWarning = true;
+                  this.showPopupQuestion = false;
+                }
+              }
+            );
+          }
+        } else {
+          // Hiển thị cảnh báo nếu form chưa thay đổi
+          if (this.closeForm) {
+            this.btnCloseForm();
+          } else {
+            this.getNewEmployeeCode();
+          }
+        }
+      } else {
+        // cho phép đóng form nếu là true / false là không đóng
+        this.closeForm = false;
+      }
+    },
+
+    /**
+     * Hàm gọi api sửa nhân viên
+     * Created by duylv 01/09/2021
+     */
+    updateData() {
+      let id = this.employeeDetail.EmployeeId;
+
+      EmployeeAPI.updateDataById(id, this.employeeDetail)
+        .then(res => {
+          if (!this.closeForm) this.getNewEmployeeCode();
+
+          this.$emit("openToastMess", res);
+          this.$emit("reloadData");
+          this.$refs.EmployeeCode.focus();
+
+          if (this.closeForm) {
+            this.btnCloseForm();
+          }
+        })
+        .catch(error => {
+          this.popupDetail = Validate.checkStatus(error.response);
+          this.showPopupWarning = true;
+          this.closeForm = false;
+        });
+    },
+
+    /**
+     * Hàm gọi api thêm nhân viên
+     * Created by duylv 01/09/2021
+     */
+    insertData() {
+      EmployeeAPI.insertData(this.employeeDetail)
+        .then(res => {
+          if (!this.closeForm) this.getNewEmployeeCode();
+
+          this.$emit("openToastMess", res);
+          this.$emit("reloadData");
+          this.$refs.EmployeeCode.focus();
+
+          if (this.closeForm) {
+            this.btnCloseForm();
+          }
+        })
+        .catch(error => {
+          this.popupDetail = Validate.checkStatus(error.response);
+          this.showPopupWarning = true;
+          this.closeForm = false;
+        });
+    },
+
+    /**
+     * Kiểm tra các trường trước khi cất
+     * Created by duylv 01/09/2021
+     */
+    validateAll() {
+      let inputError = [];
+      let checkRequired = true;
+      let check;
+
+      // Duyệt từng input để tìm lỗi
+      for (let ref in this.$refs) {
+        if (this.$refs[ref].nodeName == "DIV") {
+          check = Validate.validateRequired(
+            this.$refs[ref],
+            this.employeeDetail.DepartmentId
+          );
+        } else {
+          check = Validate.validateRequired(
+            this.$refs[ref],
+            this.$refs[ref].value
+          );
+        }
+
+        if (!check) {
+          inputError.push(ref);
+          checkRequired = check;
+        }
+      }
+
+      // Hiện popup cảnh báo nếu bị lỗi
+      if (!checkRequired && inputError.length > 0) {
+        this.popupDetail = {
+          mess: this.$refs[inputError[0]].title,
+          icon: "icon-error"
+        };
+        this.openPopupWarning();
+        this.showPopupQuestion = false;
+      }
+      return checkRequired;
+    },
+
+    /**
      * Lấy mã nhân viên mới
      * Created by duylv 31/08/2021
      */
     getNewEmployeeCode() {
-      var id = "NewEmployeeCode";
-      EmployeeAPI.getDataById(id)
+      EmployeeAPI.getNewEmployeeCode()
         .then(res => {
-          this.employeeDetail.EmployeeCode = res.data;
+          if (res) {
+            this.employeeDetail = { ...EmployeeModel.employeeDetail };
+            this.formModeSave = 0;
+            this.employeeDetail.EmployeeCode = res.data;
+            this.departmentDetail = {};
+          }
         })
         .catch(error => {
           this.popupDetail = Validate.checkStatus(error.response);
@@ -481,70 +746,12 @@ export default {
     },
 
     /**
-     * Thực hiện cất form
-     * Create by: nvduy(31/8/2021)
-     */
-    saveForm() {
-      var checkSave = true;
-      var checkObj = Validate.checkObjEqual(this.formData, this.employeeDetail);
-
-      if (checkObj == false) {
-        if (this.formMode == 0) {
-          EmployeeAPI.insertData(this.employeeDetail)
-            .then(res => {
-              this.$emit("reloadData");
-              this.toastMess = this.$statusCode.checkStatus(res);
-              this.showPopupWarning = true;
-
-              checkSave = true;
-            })
-            .catch(error => {
-              this.popupDetail = this.Validate.checkStatus(error.response);
-              this.showPopupWarning = true;
-              checkSave = false;
-            });
-        }
-        if (this.formMode == 1) {
-          let id = this.employeeDetail.EmployeeId;
-
-          EmployeeAPI.updateDataById(id, this.employeeDetail)
-            .then(res => {
-              this.$emit("reloadData");
-
-              this.popupDetail = Validate.checkStatus(res);
-
-              this.showPopupWarning = true;
-
-              checkSave = true;
-            })
-            .catch(error => {
-              this.popupDetail = Validate.checkStatus(error.response);
-              this.showPopupWarning = true;
-              checkSave = false;
-            });
-        }
-      } else {
-        this.popupDetail = {
-          mess: "Bạn vấn chưa thay đổi gì trong form",
-          icon: "icon-error"
-        };
-        this.openPopupWarning();
-        checkSave = false;
-      }
-      return checkSave;
-    },
-
-    /**
      * Bắt sự kiện khi bấm vào nút cất và thêm
      * Create by: nvduy(31/8/2021)
      */
     btnSaveAddClick() {
-      var checkSave = this.saveForm();
-      if (checkSave) {
-        this.employeeDetail = { ...EmployeeModel.employeeDetail };
-        this.getNewEmployeeCode();
-        this.formMode == 0;
-      }
+      this.closeForm = false;
+      this.saveForm();
     },
 
     /**
@@ -552,17 +759,21 @@ export default {
      * Create by: nvduy(31/8/2021)
      */
     btnSaveFormClick() {
-      var checkSave = this.saveForm();
-      if (checkSave) {
-        this.btnCloseForm();
-      }
+      this.closeForm = true;
+      this.saveForm();
     }
+  },
+  mounted() {
+    this.$refs.EmployeeCode.focus();
+    this.departmentLis = DepartmentModel.departmentList;
+    this.departmentDetai = DepartmentModel.departmentDetail;
   },
   watch: {
     formData: {
       immediate: true,
       deep: true,
       handler() {
+        console.log(this.formData);
         this.bindDepartment();
       }
     }

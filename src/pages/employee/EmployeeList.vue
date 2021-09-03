@@ -6,19 +6,28 @@
     </div>
     <div class="grid-data">
       <div class="filter">
-        <div class="input-feild-group">
-          <input
-            v-model="filterName"
-            type="text"
-            class="input-feild input-feild-group-text"
-            placeholder="Tìm theo mã, tên nhân viên"
-          />
-          <div class="input-feild-group-icon">
-            <div class="icon icon-search"></div>
-          </div>
+        <div>
+          <button
+            @click="openPopupDelete(0)"
+            v-show="deleteList.length > 1"
+            class="button button-white"
+          >Xóa hàng loạt</button>
         </div>
-        <div class="icon icon-refresh"></div>
-        <div class="icon icon-export-excel"></div>
+        <div class="action">
+          <div class="input-feild-group">
+            <input
+              v-model="filterName"
+              type="text"
+              class="input-feild input-feild-group-text"
+              placeholder="Tìm theo mã, tên nhân viên"
+            />
+            <div class="input-feild-group-icon">
+              <div class="icon icon-search"></div>
+            </div>
+          </div>
+          <div @click="getEmployeeData" class="icon icon-refresh"></div>
+          <div @click="exportEmployeeData" class="icon icon-export-excel"></div>
+        </div>
       </div>
       <div class="table-view">
         <table>
@@ -26,14 +35,14 @@
             <tr class>
               <th class="col-checkbox">
                 <div class="check-box">
-                  <input type="checkbox" />
+                  <input type="checkbox" :checked="checkDeleteList" @change="inputCheckAll" />
                   <span class="checkmark"></span>
                 </div>
               </th>
               <th class="col-employeeCode">Mã nhân viên</th>
               <th class="col-fullName">Tên nhân viên</th>
               <th>Giới tính</th>
-              <th>Ngày sinh</th>
+              <th class="text-center">Ngày sinh</th>
               <th>Số CMND</th>
               <th>Chức danhh</th>
               <th>Tên đơn vị</th>
@@ -44,17 +53,25 @@
             </tr>
           </thead>
           <tbody v-if="employeeList">
-            <tr v-for="item in employeeList" :key="item.EmployeeId">
+            <tr
+              @dblclick="editForm(item.EmployeeId)"
+              v-for="item in employeeList"
+              :key="item.EmployeeId"
+            >
               <td class="col-checkbox">
                 <div class="check-box">
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    :checked="deleteList.indexOf(item.EmployeeId) !== -1? true: false"
+                    @change="inputChecked(item.EmployeeId)"
+                  />
                   <span class="checkmark"></span>
                 </div>
               </td>
               <td class="col-employeeCode">{{item.EmployeeCode}}</td>
               <td class="col-fullName">{{item.FullName}}</td>
               <td>{{formatGender(item.Gender)}}</td>
-              <td>{{formatDate(item.DateOfBirth)}}</td>
+              <td class="text-center">{{formatDate(item.DateOfBirth)}}</td>
               <td>{{item.IdentityNumber}}</td>
               <td>{{item.PositionName}}</td>
               <td>{{item.DepartmentName}}</td>
@@ -63,7 +80,7 @@
               <td>{{item.BankBranch}}</td>
               <td class="col-action-td">
                 <span @click="editForm(item.EmployeeId)" class="edit">Sửa</span>
-                <span @click="showActionClick" class="action">
+                <span @click="showActionClick($event,item)" class="action">
                   <span class="icon icon-arrow-bottom-blue"></span>
                 </span>
               </td>
@@ -71,25 +88,27 @@
           </tbody>
         </table>
         <div v-show="showAction" class="action-option" ref="action">
-          <div class="action-option-item">Nhân bản</div>
-          <div class="action-option-item">Xóa</div>
+          <div @click="replication()" class="action-option-item">Nhân bản</div>
+          <div @click="openPopupDelete(1)" class="action-option-item">Xóa</div>
           <div class="action-option-item">Ngưng sử dụng</div>
         </div>
       </div>
       <div class="pagination">
         <div class="total-record">
           Tổng số:
-          <span class="font-bold">55</span> bản ghi
+          <span class="font-bold">{{totalRecord}}</span> bản ghi
         </div>
         <div class="page-size">
           <multiselect
-            @select="getEmployeeData"
-            @close="getEmployeeData"
+            @open="focusDropdown = true"
+            @close="focusDropdown = false"
+            :class="{'border-focus': focusDropdown}"
+            @input="loadData(1)"
             @keyup.native=" onkeyup($event, pageSize)"
             v-model="pageSize"
             :options="optionsPageSize"
             :searchable="false"
-            :close-on-select="false"
+            :close-on-select="true"
             :show-labels="false"
             :multiple="false"
             :allowEmpty="false"
@@ -107,32 +126,39 @@
             :totalPages="totalPages"
             :total="totalRecord"
             :current-page="currentPage"
-            @pagechanged="onPageChange"
+            @pagechanged="loadData"
           ></base-paging>
         </div>
       </div>
     </div>
-
     <employee-detail
+      @openToastMess="openToastMess"
       v-if="showFormDetail"
       @btnCloseForm="btnCloseFormClick"
-      @reloadData="getEmployeeData"
+      @reloadData="loadData(1)"
       :formMode="formMode"
       :formData="employeeDetail"
     ></employee-detail>
-    <base-popup v-if="showPopup" :popupDetail="popupDetail">
+    <base-popup v-if="showPopupDelete" :popupDetail="popupDetail">
       <template v-slot:buttonLeft>
-        <button @click="btnClosePopup" class="button button-white">Không</button>
+        <button @click="showPopupDelete=false" class="button button-white">Không</button>
       </template>
       <template v-slot:buttonRight>
-        <button @click="btnClosePopup" class="button">Có</button>
+        <button @click="btnPopupDelete" class="button">Có</button>
       </template>
     </base-popup>
+    <base-popup v-if="showPopupWarning" :popupDetail="popupDetail">
+      <template v-slot:buttonCenter>
+        <button @click="btnClosePopupWarning" class="button">Đóng</button>
+      </template>
+    </base-popup>
+    <transition name="slide-fade">
+      <base-toast-mess v-if="showToastMess" :message="toastMess"></base-toast-mess>
+    </transition>
+    <base-loading v-if="loading"></base-loading>
   </div>
 </template>
 <script>
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
 import moment from "moment";
 import EmployeeDetail from "./EmployeeDetail.vue";
 import BasePopup from "../../components/base/BasePopup.vue";
@@ -143,10 +169,17 @@ import Format from "../../util/Format";
 import EmployeeModel from "../../models/Employee";
 import DepartmentModel from "../../models/Department";
 import Validate from "../../util/Validate";
+import BaseToastMess from "../../components/base/BaseToastMess.vue";
+import BaseLoading from "../../components/base/BaseLoading.vue";
 
 export default {
-  components: { EmployeeDetail, BasePopup, BasePaging },
-
+  components: {
+    EmployeeDetail,
+    BasePopup,
+    BasePaging,
+    BaseToastMess,
+    BaseLoading
+  },
   data() {
     return {
       pageSize: { value: 10, name: "10 nhân viên/trang" },
@@ -163,7 +196,9 @@ export default {
         icon: "icon-warning",
         mess: "Bạn có muốn xóa"
       },
-      showPopup: false,
+
+      showPopupDelete: false,
+      showPopupWarning: false,
 
       filterName: "",
       departmentId: "",
@@ -171,13 +206,27 @@ export default {
       departmentList: DepartmentModel.departmentList,
 
       employeeDetail: { ...EmployeeModel.employeeDetail },
+      employeeId: "",
 
       totalPages: 10,
       currentPage: 1,
       totalRecord: 100,
       showAction: false,
 
-      formMode: 0
+      formMode: 0,
+      deleteMode: 1,
+      deleteList: [],
+
+      checked: false,
+
+      showToastMess: false,
+      toastMess: { icon: "icon-success", mess: "Lấy dữ liệu thành công" },
+
+      loading: false,
+
+      timeout: null,
+
+      focusDropdown: false
     };
   },
   methods: {
@@ -186,6 +235,7 @@ export default {
      * CreatedBy: duylv 30/08/2021
      */
     getEmployeeData() {
+      this.loading = true;
       EmployeeAPI.filterData(
         this.filterName,
         this.departmentId,
@@ -196,10 +246,12 @@ export default {
           this.employeeList = res.data.Data;
           this.totalRecord = res.data.TotalRecord;
           this.totalPages = res.data.TotalPage;
-          console.log(res);
+          this.loading = false;
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          this.popupDetail = Validate.checkStatus(error.response);
+          this.showPopup = true;
+          this.loading = false;
         });
     },
 
@@ -211,10 +263,10 @@ export default {
       DepartmentAPI.getAllData()
         .then(res => {
           DepartmentModel.departmentList = res.data;
-       
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          this.popupDetail = Validate.checkStatus(error.response);
+          this.showPopup = true;
         });
     },
 
@@ -223,10 +275,33 @@ export default {
      * Created by duylv 31/08/2021
      */
     getNewEmployeeCode() {
-      var id = "NewEmployeeCode";
-      EmployeeAPI.getDataById(id)
+      const me = this;
+      EmployeeAPI.getNewEmployeeCode()
         .then(res => {
-          this.employeeDetail.EmployeeCode = res.data;
+          me.employeeDetail.EmployeeCode = res.data;
+          me.showFormDetail = true;
+        })
+        .catch(error => {
+          me.popupDetail = Validate.checkStatus(error.response);
+          me.showPopup = true;
+        });
+    },
+
+    /**
+     * Bắt sự kiện export nhân viên
+     * CreatedBy: duylv 28/08/2021
+     */
+    exportEmployeeData() {
+      EmployeeAPI.exportData(this.employeeList)
+        .then(res => {
+          const blob = new Blob([res.data], {
+            type:
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          });
+          let tagA = document.createElement("a");
+          tagA.href = URL.createObjectURL(blob);
+          tagA.download = "Danh sach";
+          tagA.click();
         })
         .catch(error => {
           this.popupDetail = Validate.checkStatus(error.response);
@@ -239,10 +314,9 @@ export default {
      * CreatedBy: duylv 28/08/2021
      */
     btnAddClick() {
+      this.employeeDetail = { ...EmployeeModel.employeeDetail };
       this.formMode = 0;
-      this.employeeDetail = EmployeeModel.employeeDetail;
       this.getNewEmployeeCode();
-      this.showFormDetail = true;
     },
 
     /**
@@ -274,41 +348,145 @@ export default {
     },
 
     /**
-     * Bắt sự kiện khi bấm vào nút đóng popup
+     * Bắt sự kiện khi bấm vào nút đóng popup cảnh báo
      * CreatedBy: duylv 30/08/2021
      */
-    btnClosePopup() {
-      this.showPopup = false;
+    btnClosePopupWarning() {
+      this.showPopupWarning = false;
     },
 
     /**
-     * Bắt sự kiện mở popup
+     * Bắt sự kiện mở popup cảnh báo
      * CreatedBy: duylv 30/08/2021
      */
-    showPopupMessage(mess) {
+    openPopupWarning(mess) {
       this.popupDetail = mess;
+      this.showPopupWarning = true;
+    },
 
-      this.showPopup = true;
+    /**
+     * Bắt sự kiện mở popup delete
+     * CreatedBy: duylv 31/08/2021
+     */
+    openPopupDelete(mode) {
+      this.deleteMode = mode; // mode = 1 xóa 1 nhân viên && mode = 0 xóa nhiều nhân viên
+      if (this.deleteMode == 1) {
+        this.popupDetail = {
+          mess: `Bạn có chắc chắn muốn xóa nhân viên [${this.employeeDetail.EmployeeCode}] không?`,
+          icon: "icon-warning"
+        };
+      } else {
+        this.popupDetail = {
+          mess: `Bạn có chắc chắn muốn xóa các nhân viên này không?`,
+          icon: "icon-warning"
+        };
+      }
+      this.showPopupDelete = true;
+      this.showAction = false;
+    },
+
+    /**
+     * Bắt sự kiện mở toast message
+     * CreatedBy: duylv 31/08/2021
+     */
+    openToastMess(mess) {
+      this.toastMess = Validate.checkStatus(mess);
+      this.showToastMess = true;
+
+      setTimeout(() => {
+        this.showToastMess = false;
+      }, 2000);
+    },
+
+    /**
+     * Thực hiện xóa khi bấm vào nút xóa ở popup
+     * CreatedBy: duylv 01/09/2021
+     */
+    btnPopupDelete() {
+      // mode = 1 xóa 1 nhân viên && mode = 0 xóa nhiều nhân viên
+      if (this.deleteMode == 1) {
+        let id = this.employeeDetail.EmployeeId;
+        EmployeeAPI.deleteDataById(id)
+          .then(res => {
+            this.openToastMess(res);
+            this.loadData(1);
+          })
+          .catch(error => {
+            this.popupDetail = Validate.checkStatus(error.response);
+            this.showPopupWarning = true;
+          });
+      } else {
+        EmployeeAPI.deleteDataByList(this.deleteList)
+          .then(res => {
+            this.openToastMess(res);
+            this.checked = false;
+            this.deleteList = [];
+
+            this.loadData(1);
+          })
+          .catch(error => {
+            this.popupDetail = Validate.checkStatus(error.response);
+            this.showPopupWarning = true;
+          });
+      }
+      this.showPopupDelete = false;
+
+      this.loadData(1);
+    },
+
+    /**
+     * Lấy toàn bộ id khi check
+     * CreatedBy: duylv 01/09/2021
+     */
+    inputCheckAll() {
+      this.checked = !this.checked;
+      console.log(this.deleteList);
+      this.employeeList.forEach(item => {
+        if (this.checked == true) {
+          this.deleteList.push(item.EmployeeId);
+        } else {
+          this.deleteList = [];
+        }
+      });
+    },
+
+    /**
+     * Lấy id những hàng đang check
+     * CreatedBy: duylv 01/09/2021
+     */
+    inputChecked(id) {
+      console.log(this.deleteList);
+      let rowIndex = this.deleteList.indexOf(id);
+      if (rowIndex !== -1) {
+        this.deleteList.splice(rowIndex, 1);
+      } else {
+        this.deleteList.push(id);
+      }
     },
 
     /**
      * Bắt sự kiện khi thay đổi vị trí page
      * CreatedBy: duylv 30/08/2021
      */
-    onPageChange(page) {
+    loadData(page) {
       console.log(page);
       this.currentPage = page;
       this.getEmployeeData();
+    },
+
+    hideActionClick() {
+      this.showAction = false;
     },
 
     /**
      * Bắt sự kiện Hiển thị chức năng tại row
      * CreatedBy: duylv 30/08/2021
      */
-    showActionClick(event) {
+    showActionClick(event, detail) {
       let positionStyle = event.target.getBoundingClientRect();
+      this.employeeDetail = detail;
       console.log(event.target.parentNode);
-      this.showAction = true;
+      this.showAction = !this.showAction;
       if (this.showAction) {
         event.target.parentNode.classList.add("active");
         if (positionStyle.top >= 500) {
@@ -350,18 +528,53 @@ export default {
           this.employeeDetail = res.data;
           this.formMode = 1;
           this.showFormDetail = true;
-
-          console.log(this.employeeDetail);
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          this.popupDetail = Validate.checkStatus(error.response);
+          this.showPopupWarning = true;
+        });
+    },
+
+    replication() {
+      let id = this.employeeDetail.EmployeeId;
+      EmployeeAPI.getDataById(id)
+        .then(res => {
+          this.employeeDetail = res.data;
+          this.formMode = 0;
+          this.getNewEmployeeCode();
+          this.showAction = false;
+        })
+        .catch(error => {
+          this.popupDetail = Validate.checkStatus(error.response);
+          this.showPopupWarning = true;
         });
     }
   },
+  computed: {
+    checkDeleteList() {
+      let check = this.checked;
+      if (this.deleteList.length == this.employeeList.length) {
+        check = true;
+      } else {
+        check = false;
+      }
 
-  created() {
-    this.getEmployeeData();
+      return check;
+    }
+  },
+  mounted() {
+    this.loadData(1);
+
     this.getDepartmentData();
+  },
+
+  watch: {
+    filterName() {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.loadData(1);
+      }, 500);
+    }
   }
 };
 </script>

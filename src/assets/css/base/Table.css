@@ -1,11 +1,11 @@
 .table-view {
-  height: calc(100vh - 248px);
+  max-height: calc(100vh - 248px);
   overflow: auto;
   position: relative;
   background: #fff;
   margin: 0 16px;
 }
-table {
+.table-view table {
   /* height: calc(100vh - 248px); */
   border-collapse: separate;
   width: 100%;
@@ -14,10 +14,10 @@ table {
   border-spacing: 0;
   background: #fff;
 }
-tr {
+.table-view tr {
   border-bottom: 1px solid #bbb;
 }
-tr th {
+.table-view tr th {
   border-right: 1px solid #c7c7c7;
   border-bottom: 1px solid #c7c7c7;
   min-height: 34px;
@@ -30,23 +30,23 @@ tr th {
   text-transform: uppercase;
   font-family: MisaNotoSans-SemiBold !important;
 }
-th:last-child {
+.table-view th:last-child {
   border-right: none;
   border-left: 1px solid #c7c7c7;
 }
 
-th:nth-last-child(2),
-td:nth-last-child(2) {
+.table-view th:nth-last-child(2),
+.table-view td:nth-last-child(2) {
   border-right: none;
 }
-tr:hover td {
+.table-view tr:hover td {
   background: #f3f8f8;
 }
-tr:active,
-tr:focus {
+.table-view tr:active,
+.table-view tr:focus {
   background: #f8f8f8;
 }
-td,
+.table-view td,
 th {
   box-sizing: content-box;
   padding: 0 10px;
@@ -57,18 +57,18 @@ th {
   color: #454545;
   box-sizing: border-box;
 }
-tr td {
+.table-view tr td {
   height: 48px;
   border-right: 1px dotted #c7c7c7;
   border-bottom: 1px solid #c7c7c7;
   background-color: #fff;
 }
 
-td:last-child {
+.table-view td:last-child {
   border-right: none;
   border-left: 1px dotted #c7c7c7;
 }
-thead {
+.table-view thead {
   position: sticky;
   top: 0;
   z-index: 10;

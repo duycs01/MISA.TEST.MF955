@@ -1,7 +1,9 @@
 .menu {
   width: 180px;
-  transition: 0.5s all ease;
   background-color: #38393d;
+}
+.close-menu {
+  width: 52px !important;
 }
 .menu-header {
   display: flex;
@@ -9,13 +11,12 @@
   align-items: center;
   height: 48px;
 }
-.menu .toggle {
-  width: 24px;
-  height: 24px;
+.menu .home {
   margin-right: 10px;
-  background: url(../../img/Sprites.64af8f61.svg) no-repeat -428px -88px;
 }
-
+.menu .toggle {
+  margin-right: 10px;
+}
 .menu .logo {
   height: 32px;
 }

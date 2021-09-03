@@ -4,7 +4,7 @@
   height: 32px;
   color: inherit;
   position: relative;
-  padding: 6px 20px 6px;
+  padding: 6px 10px 6px;
   border-radius: 2px;
   border: 1px solid #babec5;
   box-sizing: border-box;
@@ -13,6 +13,7 @@
 }
 .input-feild:hover {
   outline: 1px solid #e2e2e2;
+  -moz-outline-radius: 25px;
 }
 .input-feild:focus {
   border: 1px solid #2ca01c;
@@ -28,6 +29,7 @@
 }
 .input-feild-group {
   position: relative;
+  margin-right: 10px;
 }
 .input-feild-group-icon {
   position: absolute;
@@ -40,6 +42,8 @@
 .input-lable {
   font-family: MisaNotoSans-Bold !important;
   padding-bottom: 4px;
+  box-sizing: border-box;
+  display: block;
 }
 
 input[type="radio"]:checked {

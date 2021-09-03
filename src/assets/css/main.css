@@ -1,11 +1,11 @@
-@import url(../css/base/BaseIcon.css);
+@import url(../css/base/Icon.css);
 @import url(../css/base/Button.css);
-@import url(../css/base/BaseInput.css);
+@import url(../css/base/Input.css);
 @import url(../css/base/Table.css);
 @import url(../css/base/Checkbox.css);
 @import url(../css/common/Common.css);
 @import url(../css/base/InputRadio.css);
-@import url(../css/base/BaseTabs.css);
+@import url(../css/common/CustomDxBox.css);
 
 body {
   font-family: MisaNotoSans-Regular !important;
@@ -18,13 +18,9 @@ a {
   color: #111111 !important;
 }
 input {
-  font-family: MisaNotoSans !important;
+  font-family: MisaNotoSans-Regular !important;
 }
-*,
-*::before,
-*::after {
-  box-sizing: content-box;
-}
+
 @font-face {
   font-family: MisaNotoSans-Italic;
   src: url(../fonts/notosans-italic.1c1aaac9.woff2);

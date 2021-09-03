@@ -65,9 +65,7 @@
   border: 1px solid #babec5 !important;
   box-sizing: content-box;
 }
-.multiselect__tags:focus {
-  border-color: #2ca01c;
-}
+
 .multiselect__option {
   padding: 0 10px !important;
   display: flex !important;
@@ -105,4 +103,10 @@
 .multiselect__option--selected:hover {
   background: #2ca01c !important;
   color: #ffffff !important;
+}
+.border-err .multiselect__tags {
+  border-color: red !important;
+}
+.border-focus .multiselect__tags {
+  border-color: #2ca01c !important;
 }

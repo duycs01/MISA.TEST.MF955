@@ -161,7 +161,7 @@ export default {
 };
 </script>
 <style scoped>
-@import url("../../assets/css/base/BasePaging.css");
+@import url("../../assets/css/base/Paging.css");
 .dx-fieldset{
   margin: 0;
   padding: 0;

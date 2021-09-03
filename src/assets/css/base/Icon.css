@@ -7,10 +7,15 @@
 .icon-dashboard {
   background-position: -30px -1628px;
 }
+.icon-home {
+  background-position: -428px -88px;
+}
 .icon-dashboard-active {
   background-position: -30px -1585px;
 }
-
+.icon-toggle-white {
+  background-position: -310px -32px;
+}
 .icon-cash {
   background-position: -73px -1628px;
 }
@@ -115,11 +120,14 @@
   background-position: -592px -456px;
 }
 .icon-error {
-  background-position: -24px -954px;
+  background-position: -745px -457px;
 }
 .icon-arrow-bottom-blue {
   background-position: -896px -359px;
 }
 .icon-question {
   background-position: -826px -456px;
+}
+.icon-success {
+  background-position: -994px -468px;
 }

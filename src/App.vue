@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <the-menu></the-menu>
-    <the-content></the-content>
+    <the-menu @btnToggle="btnToggle" :showMenu="showMenu"></the-menu>
+    <the-content @btnToggle="btnToggle" :showMenu="showMenu"></the-content>
   </div>
 </template>
 
@@ -14,6 +14,16 @@ export default {
   components: {
     TheMenu,
     TheContent
+  },
+  data() {
+    return {
+      showMenu: true
+    };
+  },
+  methods: {
+    btnToggle() {
+      this.showMenu = !this.showMenu;
+    }
   }
 };
 </script>

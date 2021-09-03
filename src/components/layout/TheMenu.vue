@@ -1,8 +1,9 @@
 <template>
-  <div class="menu">
+  <div :class="{'close-menu': !showMenu}" class="menu">
     <div class="menu-header">
-      <a class="toggle" href="#"></a>
-      <a class="logo" href="#">
+      <a v-if="!showMenu" @click="btnToggle" class="toggle icon icon-toggle-white" href="#"></a>
+      <a v-if="showMenu" class="home icon icon-home" href="#"></a>
+      <a v-if="showMenu" class="logo" href="#">
         <img src="../../assets/img/Logo_Module_TiengViet_White.66947422.svg" alt="logo" />
       </a>
     </div>
@@ -12,7 +13,7 @@
           <div class="menu-icon">
             <div :class="index==0? item.activeIcon : item.classIcon" class="icon"></div>
           </div>
-          <span class="title">{{item.title}}</span>
+          <span v-if="showMenu" class="title">{{item.title}}</span>
         </a>
       </div>
     </div>
@@ -20,6 +21,12 @@
 </template>
 <script>
 export default {
+  props: {
+    showMenu: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       menuItems: [
@@ -86,6 +93,17 @@ export default {
         }
       ]
     };
+  },
+
+  methods: {
+    /**
+     * Hàm đóng mở memu
+     * CreateBy: 02/09/2021
+     */
+    btnToggle() {
+      // false là đóng menu
+      this.$emit("btnToggle");
+    }
   }
 };
 </script>

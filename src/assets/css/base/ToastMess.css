@@ -1,46 +1,24 @@
 .toast-mess {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: fixed;
-  top: 10px;
-  right: 0;
-  left: 0;
-  margin: 0 auto;
-  padding: 0 16px;
-  height: 48px;
-  width: 220px;
-  z-index: 100;
-  background: #fff;
-  box-shadow: 0 3px 6px rgb(0, 0, 0, 0.16);
-  border-radius: 4px;
+  top: 50px;
+  left: 50%;
+  right: 50%;
+  z-index: 999;
 }
-.toast-mess .content-mess {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  color: #000000;
-}
-.toast-mess .content-mess .icon {
-  font-size: 13px;
-  width: 24px;
-  height: 24px;
-  border-radius: 100%;
-  background: #f65454;
+
+.content-mess {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
+  background-color: #2ca01c;
+  border-radius: 4px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  width: 250px;
+  border: 1px solid #2ca01c;
 }
-.toast-mess .content-mess .icon i {
+.content-mess .text {
   color: #fff;
-}
-.toast-mess .btn-close-toast {
-  background: none;
-  margin-left: auto;
-  outline: none;
-  border: none;
-  color: #f65454;
-  padding: 0;
-  font-size: 15px;
-  cursor: pointer;
+  font-family: MisaNotoSans-SemiBold !important;
 }

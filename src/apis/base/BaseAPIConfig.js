@@ -9,6 +9,7 @@ let baseAPIConfig = axios.create({
     headers: {
         'Content-type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-    }
+    },
+    
 })
 export default baseAPIConfig

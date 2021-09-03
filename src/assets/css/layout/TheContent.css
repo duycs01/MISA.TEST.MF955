@@ -2,6 +2,9 @@
   position: relative;
   width: calc(100vw - 180px);
 }
+.close-menu {
+  width: calc(100vw - 52px) !important;
+}
 .content .content-header {
   height: 48px;
   background-color: #ffffff;
