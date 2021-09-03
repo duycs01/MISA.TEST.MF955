@@ -57,3 +57,7 @@ select::-ms-expand {
   font-family: MisaNotoSans-Bold !important;
   color: #111;
 }
+.pagination .disable {
+  cursor: default !important;
+  color: #9e9e9e !important;
+}

@@ -2,7 +2,12 @@
   <div class="pagination">
     <slot name="total"></slot>
     <div class="current-page">
-      <button class="prev" @click="onClickPreviousPage" :disabled="isInFirstPage">Trước</button>
+      <button
+        class="prev"
+        @click="onClickPreviousPage"
+        :disabled="isInFirstPage"
+        :class="{'disable':isInFirstPage}"
+      >Trước</button>
       <button
         class="page"
         v-if="currentPage >= maxVisibleButtons"
@@ -32,7 +37,12 @@
       >
         <span class="number">{{totalPages}}</span>
       </button>
-      <button class="next" @click="onClickNextPage" :disabled="isInLastPage">Sau</button>
+      <button
+        class="next"
+        @click="onClickNextPage"
+        :class="{'disable':isInLastPage}"
+        :disabled="isInLastPage"
+      >Sau</button>
     </div>
     <slot name="pageSize"></slot>
   </div>

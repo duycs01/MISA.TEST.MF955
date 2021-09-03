@@ -209,7 +209,7 @@
                       class="dxDateBox dtpIdentityDate"
                       dateOutOfRangeMessage="Ngày chọn không được quá ngày hiện tại"
                       :max="new Date()"
-                      :tabIndex="5"
+                      :tabIndex="10"
                       title="Ngày cấp"
                     />
                   </div>
@@ -316,18 +316,20 @@
         </div>
         <div class="form-footer">
           <div class="button-left">
-            <button @click="btnCloseForm" class="button button-white">Hủy</button>
+            <button @click="btnCloseForm" tabindex="21" class="button button-white">Hủy</button>
           </div>
           <div class="button-right">
             <button
               @click="btnSaveFormClick"
               class="button button-white mx-10"
               title="Cất (Crtl + S)"
+              tabindex="19"
             >Cất</button>
             <button
               @click="btnSaveAddClick"
               class="button"
               title="Cất và Thêm (Crtl + Shift + S)"
+              tabindex="20"
             >Cất và Thêm</button>
           </div>
         </div>
@@ -382,7 +384,7 @@ export default {
       departmentList: DepartmentModel.departmentList,
       departmentDetail: DepartmentModel.departmentDetail,
 
-      employeeDetail: { ...this.formData },
+      employeeDetail: {},
       tabIndexForm: 1,
 
       showPopupWarning: false,
@@ -474,14 +476,15 @@ export default {
      * Create by: nvduy(31/8/2021)
      */
     getDateValue(e) {
-      console.log(e);
-      // var attrId = e.target.id;
-      // if (attrId == "dtp-DateOfBirth") {
-      //   this.employeeDetail.DateOfBirth = e.srcElement.value;
-      // }
-      // if (attrId == "dtp-IdentityDate") {
-      //   this.employeeDetail.IdentityDate = e.srcElement.value;
-      // }
+      var attrId = e.element.id;
+      console.log(e.element.id);
+      if (attrId == "dtp-birthOfDate") {
+        this.employeeDetail.DateOfBirth = this.formatDate(e.value);
+        console.log(this.formatDate(e.value));
+      }
+      if (attrId == "dtpIdentityDate") {
+        this.employeeDetail.IdentityDate = this.formatDate(e.value);
+      }
     },
 
     /**
@@ -578,9 +581,6 @@ export default {
       // Kiểm tra tất cả input bắt buộc nhập
       let checkRequired = this.validateAll();
 
-      // Kiểm tra form đã thay đổi chưa : true là chưa thay đổi/ false là đã thay đổi
-      var checkObj = Validate.checkObjEqual(this.formData, this.employeeDetail);
-
       if (checkRequired) {
         // Kiêm tra trùng mã nhân viên : true là trùng / false là không trùng
         // formModeSave: 1 Sửa / 0 Thêm
@@ -600,10 +600,15 @@ export default {
             }
           );
         }
-        // Kiểm tra form đã thay đổi chưa
-        if (!checkObj) {
-          // formModeSave: 1 Sửa / 0 Thêm
-          if (this.formModeSave == 1) {
+
+        // Kiểm tra form đã thay đổi chưa : true là chưa thay đổi/ false là đã thay đổi
+        var checkObj = Validate.checkObjEqual(
+          this.formData,
+          this.employeeDetail
+        );
+        // formModeSave: 1 Sửa / 0 Thêm
+        if (this.formModeSave == 1) {
+          if (!checkObj) {
             EmployeeAPI.checkDuplicate(this.employeeDetail).then(
               duplicateCode => {
                 if (!duplicateCode.data) {
@@ -619,13 +624,12 @@ export default {
                 }
               }
             );
-          }
-        } else {
-          // Hiển thị cảnh báo nếu form chưa thay đổi
-          if (this.closeForm) {
-            this.btnCloseForm();
           } else {
-            this.getNewEmployeeCode();
+            if (this.closeForm) {
+              this.btnCloseForm();
+            } else {
+              this.getNewEmployeeCode();
+            }
           }
         }
       } else {
@@ -640,15 +644,14 @@ export default {
      */
     updateData() {
       let id = this.employeeDetail.EmployeeId;
-
       EmployeeAPI.updateDataById(id, this.employeeDetail)
         .then(res => {
-          if (!this.closeForm) this.getNewEmployeeCode();
-
           this.$emit("openToastMess", res);
           this.$emit("reloadData");
-          this.$refs.EmployeeCode.focus();
-
+          if (!this.closeForm) {
+            this.getNewEmployeeCode();
+            this.$refs.EmployeeCode.focus();
+          }
           if (this.closeForm) {
             this.btnCloseForm();
           }
@@ -665,13 +668,18 @@ export default {
      * Created by duylv 01/09/2021
      */
     insertData() {
+      console.log(this.employeeDetail);
+
       EmployeeAPI.insertData(this.employeeDetail)
         .then(res => {
-          if (!this.closeForm) this.getNewEmployeeCode();
-
           this.$emit("openToastMess", res);
+
           this.$emit("reloadData");
-          this.$refs.EmployeeCode.focus();
+
+          if (!this.closeForm) {
+            this.getNewEmployeeCode();
+            this.$refs.EmployeeCode.focus();
+          }
 
           if (this.closeForm) {
             this.btnCloseForm();
@@ -750,6 +758,7 @@ export default {
      * Create by: nvduy(31/8/2021)
      */
     btnSaveAddClick() {
+      console.log(this.employeeDetail);
       this.closeForm = false;
       this.saveForm();
     },
@@ -759,6 +768,7 @@ export default {
      * Create by: nvduy(31/8/2021)
      */
     btnSaveFormClick() {
+      console.log(this.employeeDetail);
       this.closeForm = true;
       this.saveForm();
     }
@@ -766,7 +776,7 @@ export default {
   mounted() {
     this.$refs.EmployeeCode.focus();
     this.departmentLis = DepartmentModel.departmentList;
-    this.departmentDetai = DepartmentModel.departmentDetail;
+    this.employeeDetail = { ...this.formData };
   },
   watch: {
     formData: {
