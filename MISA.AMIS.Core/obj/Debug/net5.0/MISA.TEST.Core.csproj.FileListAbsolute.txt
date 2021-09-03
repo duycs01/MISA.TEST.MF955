@@ -1,0 +1,14 @@
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\bin\Debug\net5.0\MISA.TEST.Core.deps.json
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\bin\Debug\net5.0\MISA.TEST.Core.dll
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\bin\Debug\net5.0\ref\MISA.TEST.Core.dll
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\bin\Debug\net5.0\MISA.TEST.Core.pdb
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\obj\Debug\net5.0\MISA.TEST.Core.csproj.AssemblyReference.cache
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\obj\Debug\net5.0\MISA.TEST.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\obj\Debug\net5.0\MISA.TEST.Core.AssemblyInfoInputs.cache
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\obj\Debug\net5.0\MISA.TEST.Core.AssemblyInfo.cs
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\obj\Debug\net5.0\MISA.TEST.Core.csproj.CoreCompileInputs.cache
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\obj\Debug\net5.0\MISA.TEST.Core.dll
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\obj\Debug\net5.0\ref\MISA.TEST.Core.dll
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\obj\Debug\net5.0\MISA.TEST.Core.pdb
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\obj\Debug\net5.0\MISA.TEST.Core.Resources.Message.resources
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Core\obj\Debug\net5.0\MISA.TEST.Core.csproj.GenerateResource.cache

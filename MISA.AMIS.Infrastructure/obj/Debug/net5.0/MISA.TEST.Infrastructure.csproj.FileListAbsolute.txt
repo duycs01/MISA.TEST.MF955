@@ -1,0 +1,15 @@
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\bin\Debug\net5.0\MISA.TEST.Infrastructure.deps.json
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\bin\Debug\net5.0\MISA.TEST.Infrastructure.dll
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\bin\Debug\net5.0\ref\MISA.TEST.Infrastructure.dll
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\bin\Debug\net5.0\MISA.TEST.Infrastructure.pdb
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\bin\Debug\net5.0\MISA.TEST.Core.dll
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\bin\Debug\net5.0\MISA.TEST.Core.pdb
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\obj\Debug\net5.0\MISA.TEST.Infrastructure.csproj.AssemblyReference.cache
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\obj\Debug\net5.0\MISA.TEST.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\obj\Debug\net5.0\MISA.TEST.Infrastructure.AssemblyInfoInputs.cache
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\obj\Debug\net5.0\MISA.TEST.Infrastructure.AssemblyInfo.cs
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\obj\Debug\net5.0\MISA.TEST.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\obj\Debug\net5.0\MISA.TEST.Infrastructure.csproj.CopyComplete
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\obj\Debug\net5.0\MISA.TEST.Infrastructure.dll
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\obj\Debug\net5.0\ref\MISA.TEST.Infrastructure.dll
+D:\Bài tập đề Fresher MISA\BÀI LÀM\MISA.MF955.API\MISA.AMIS\MISA.AMIS.Infrastructure\obj\Debug\net5.0\MISA.TEST.Infrastructure.pdb
