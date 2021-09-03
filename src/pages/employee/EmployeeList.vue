@@ -80,14 +80,18 @@
               <td>{{item.BankBranch}}</td>
               <td class="col-action-td">
                 <span @click="editForm(item.EmployeeId)" class="edit">Sửa</span>
-                <span @click="showActionClick($event,item)" class="action">
+                <span
+                  :class="{'active': employeeId == item.EmployeeId}"
+                  @click="showActionClick($event,item)"
+                  class="action"
+                >
                   <span class="icon icon-arrow-bottom-blue"></span>
                 </span>
               </td>
             </tr>
           </tbody>
         </table>
-        <div v-show="showAction" class="action-option" ref="action">
+        <div v-show="employeeId" class="action-option" ref="action">
           <div @click="replication()" class="action-option-item">Nhân bản</div>
           <div @click="openPopupDelete(1)" class="action-option-item">Xóa</div>
           <div class="action-option-item">Ngưng sử dụng</div>
@@ -383,6 +387,7 @@ export default {
       }
       this.showPopupDelete = true;
       this.showAction = false;
+      this.employeeId = null;
     },
 
     /**
@@ -483,19 +488,22 @@ export default {
      * CreatedBy: duylv 30/08/2021
      */
     showActionClick(event, detail) {
-      let positionStyle = event.target.getBoundingClientRect();
-      this.employeeDetail = detail;
-      console.log(event.target.parentNode);
-      this.showAction = !this.showAction;
-      if (this.showAction) {
-        event.target.parentNode.classList.add("active");
-        if (positionStyle.top >= 500) {
-          this.$refs.action.style = `top: 445px;`;
-        } else {
-          this.$refs.action.style = `top:calc(${positionStyle.top}px + 25px);`;
-        }
+      if (this.employeeId == detail.EmployeeId) {
+        this.showAction = false;
+        this.employeeId = null;
       } else {
-        event.target.parentNode.classList.remove("active");
+        this.employeeId = detail.EmployeeId;
+        this.showAction = true;
+        let positionStyle = event.target.getBoundingClientRect();
+        this.employeeDetail = detail;
+        console.log(event.target.parentNode);
+        if (this.showAction) {
+          if (positionStyle.top >= 500) {
+            this.$refs.action.style = `top: 445px;`;
+          } else {
+            this.$refs.action.style = `top:calc(${positionStyle.top}px + 25px);`;
+          }
+        }
       }
     },
 
@@ -535,6 +543,10 @@ export default {
         });
     },
 
+    /**
+     * Nhân bản nhân viên
+     * Create by: nvduy(30/7/2021)
+     */
     replication() {
       let id = this.employeeDetail.EmployeeId;
       EmployeeAPI.getDataById(id)
@@ -548,6 +560,7 @@ export default {
           this.popupDetail = Validate.checkStatus(error.response);
           this.showPopupWarning = true;
         });
+      this.employeeId = null;
     }
   },
   computed: {
