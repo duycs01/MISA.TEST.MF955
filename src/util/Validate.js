@@ -48,47 +48,50 @@ class Validate {
     /**
      * Hàm kiểm tra định dạng email
      */
-    validateEmail(inputEmail) {
+    validateEmail(email) {
         let re =
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (inputEmail.value) return re.test(String(inputEmail.value).toLowerCase());
+        if (email != "") { return re.test(String(email).toLowerCase()); }
+        else {
+            return false
+        }
     }
 
-     /**
-     * Thực hiện kiểm tra dịnh dạng Email
-     * CreatedBy: duylv 01/09/2021
-     */
-      validateInputEmail(event, value) {
-        let isValid = Validate.validateEmail(value);
+    /**
+        * Thực hiện kiểm tra dịnh dạng Email
+        * CreatedBy: duylv 01/09/2021
+        */
+    validateInputEmail(ref, value) {
+        let isValid = this.validateEmail(value);
         if (!isValid && value != "") {
-          event.target.classList.add("border-red");
-          event.target.setAttribute("title", "Email không đúng định dạng");
+            ref.classList.add("border-err");
+            ref.setAttribute("title", "Email không đúng định dạng");
         } else {
-          event.target.classList.remove("border-red");
-          event.target.setAttribute("title", event.name);
+            ref.classList.remove("border-err");
+            ref.setAttribute("title", 'Email');
         }
-        return isValid;
-      }
+        return isValid
+    }
 
-      /**
-     * validate các trường bắt buộc nhập
-     * CreatedBy: duylv 01/09/2021
-     */
+    /**
+   * validate các trường bắt buộc nhập
+   * CreatedBy: duylv 01/09/2021
+   */
     validateRequired(ref, value) {
         ref.classList.remove("border-focus");
         let isValid = true;
         let attr = ref.getAttribute("textVN");
         if (value == "" || value == null) {
-          ref.classList.add("border-err");
-          ref.title = attr + " không được để trống";
-          isValid = false;
+            ref.classList.add("border-err");
+            ref.title = attr + " không được để trống";
+            isValid = false;
         } else {
-          ref.classList.remove("border-err");
-          ref.title = ref.name;
-          isValid = true;
+            ref.classList.remove("border-err");
+            ref.title = ref.name;
+            isValid = true;
         }
         return isValid;
-      }
+    }
 
 }
 export default new Validate()

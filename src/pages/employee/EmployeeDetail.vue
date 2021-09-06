@@ -265,7 +265,8 @@
                 <div class="txtEmail contact-input">
                   <label class="input-lable" for="txtEmail">Email</label>
                   <input
-                    @change="validateEmail($event,employeeDetail.Email)"
+                    ref="Email"
+                    @change="validateEmail(employeeDetail.Email)"
                     v-model="employeeDetail.Email"
                     id="txtEmail"
                     type="text"
@@ -569,8 +570,8 @@ export default {
      * Thực hiện kiểm tra dịnh dạng Email
      * CreatedBy: duylv 01/09/2021
      */
-    validateEmail(event, value) {
-      Validate.validateInputEmail(event, value);
+    validateEmail(value) {
+      Validate.validateInputEmail(this.$refs["Email"], value);
     },
 
     /**
@@ -700,13 +701,17 @@ export default {
       let inputError = [];
       let checkRequired = true;
       let check;
-
       // Duyệt từng input để tìm lỗi
       for (let ref in this.$refs) {
-        if (this.$refs[ref].nodeName == "DIV") {
+        if (ref == "Department") {
           check = Validate.validateRequired(
             this.$refs[ref],
             this.employeeDetail.DepartmentId
+          );
+        } else if (ref == "Email") {
+          check = Validate.validateInputEmail(
+            this.$refs[ref],
+            this.$refs[ref].value
           );
         } else {
           check = Validate.validateRequired(
@@ -784,6 +789,11 @@ export default {
       deep: true,
       handler() {
         console.log(this.formData);
+        this.formData.DateOfBirth = this.formatDate(this.formData.DateOfBirth);
+        this.formData.IdentityDate = this.formatDate(
+          this.formData.IdentityDate
+        );
+
         this.bindDepartment();
       }
     }
